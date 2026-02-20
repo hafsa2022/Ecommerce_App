@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import assets from "../assets/frontend_assets/assets";
 import { NavLink, Link } from "react-router-dom";
+import { ShopContext } from "../context/shopContext";
 
 const Navbar = () => {
+  const {setShowSearch , getCartCount} = useContext(ShopContext);
   const [visible, setVisible] = useState(false);
 
   return (
@@ -35,6 +37,7 @@ const Navbar = () => {
           src={assets.search_icon}
           alt="Search Icon"
           className="w-5 cursor-pointer"
+          onClick={() => setShowSearch(prev => !prev)}
         />
         <div className="group relative">
           <img
@@ -55,7 +58,7 @@ const Navbar = () => {
               </p>
             </div>
           </div>
-        </div>{" "}
+        </div>
         <Link to="/cart" className="relative">
           <img
             src={assets.cart_icon}
@@ -63,7 +66,7 @@ const Navbar = () => {
             className="w-5 cursor-pointer"
           />
           <p className="absolute right-[-5px] bottom-[-5px] bg-black text-white text-center leading-4 w-4 rounded-full aspect-square text-[8px]">
-            2
+            {getCartCount()}
           </p>
         </Link>
         <img
