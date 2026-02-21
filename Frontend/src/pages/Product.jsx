@@ -52,8 +52,8 @@ const Product = () => {
             <p className="text-sm pl-2">(120)</p>
           </div>
           <p className="text-3xl font-medium mt-5">
-            {currency}
             {productData.price}
+            {currency}
           </p>
           <p className="mt-5 text-gray-500 md:w-4/5">
             {productData.description}
@@ -72,7 +72,10 @@ const Product = () => {
               ))}
             </div>
           </div>
-          <button onClick={() => addToCart(productId, selectedSize)} className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700">
+          <button
+            onClick={() => addToCart(productId, selectedSize)}
+            className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700"
+          >
             ADD TO CART
           </button>
           <hr className="mt-8 sm:w-4/5" />
