@@ -121,6 +121,14 @@ const login = async (req, res) => {
 };
 
 // Login for Admin
-const adminLogin = async (req, res) => {};
+const adminLogin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const result = await userService.adminLogin(email, password);
+    res.json({ status: true, ...result });
+  } catch (error) {
+    res.status(400).json({ status: false, message: error.message });
+  }
+};
 
 export { register, login, adminLogin };
