@@ -29,7 +29,7 @@ const adminLogin = async (req, res, next) => {
 
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      console.log(decoded);
+
       if (decoded!= process.env.ADMIN_EMAIL + process.env.ADMIN_PASSWORD) {
         res
           .status(401)

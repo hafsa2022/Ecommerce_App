@@ -6,4 +6,6 @@ const findByEmail = (email) => User.findOne({ email });
 
 const findById = (id) => User.findById(id);
 
-export { createUser, findByEmail, findById };
+const findByIdAndUpdate = (id, cartData) => User.findByIdAndUpdate(id, {cartData});
+
+export { createUser, findByEmail, findById , findByIdAndUpdate};

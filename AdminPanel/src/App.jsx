@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "./components/NavBar";
 import "./index.css";
 import SideBar from "./components/SideBar";
@@ -7,24 +7,38 @@ import Add from "./pages/Add";
 import List from "./pages/List";
 import Orders from "./pages/Orders";
 import Login from "./components/Login";
+import { ToastContainer } from "react-toastify";
+
+export const currency = "MAD";
 
 const App = () => {
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(
+    localStorage.getItem("token") != null ? localStorage.getItem("token") : "",
+  );
+
+  useEffect(() => {
+    localStorage.setItem("token", token);
+  }, [token]);
+
   return (
     <div className="bg-gray-50 min-h-screen">
+      <ToastContainer />
       {token === "" ? (
-        <Login />
+        <Login setToken={setToken} />
       ) : (
         <>
-          <NavBar />
+          <NavBar setToken={setToken} />
           <hr />
           <div className="flex w-full">
             <SideBar />
             <div className="w-[70%] mx-auto ml-[max(5vw,25px)] my-8 text-gray-600 text-base">
               <Routes>
-                <Route to="/add" element={<Add />}></Route>
-                <Route to="/list" element={<List />}></Route>
-                <Route to="/orders" element={<Orders />}></Route>
+                <Route path="/add" element={<Add token={token} />}></Route>
+                <Route path="/list" element={<List token={token} />}></Route>
+                <Route
+                  path="/orders"
+                  element={<Orders token={token} />}
+                ></Route>
               </Routes>
             </div>
           </div>

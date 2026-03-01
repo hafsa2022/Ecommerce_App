@@ -17,20 +17,22 @@ const Cart = () => {
   const [cartData, setCartData] = useState([]);
 
   useEffect(() => {
-    let data = [];
-    for (let productId in cartItems) {
-      for (let size in cartItems[productId]) {
-        let product = products.find((p) => p._id === productId);
-        if (cartItems[productId][size] > 0) {
-          data.push({
-            ...product,
-            size,
-            quantity: cartItems[productId][size],
-          });
+    if (products.length > 0) {
+      let data = [];
+      for (let productId in cartItems) {
+        for (let size in cartItems[productId]) {
+          let product = products.find((p) => p._id === productId);
+          if (cartItems[productId][size] > 0) {
+            data.push({
+              ...product,
+              size,
+              quantity: cartItems[productId][size],
+            });
+          }
         }
       }
+      setCartData(data);
     }
-    setCartData(data);
   }, [cartItems, products]);
 
   return (

@@ -18,7 +18,7 @@ const register = async (data) => {
 
   const token = generateToken(user._id);
 
-  return { user, token };
+  return { token, message: "Your account created successfully." };
 };
 
 const login = async (email, password) => {
@@ -30,7 +30,7 @@ const login = async (email, password) => {
 
   const token = generateToken(user._id);
 
-  return { user, token };
+  return { token };
 };
 
 const adminLogin = async (email, password) => {

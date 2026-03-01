@@ -3,7 +3,7 @@ import * as productRepository from "../repositories/productRepository.js";
 const addProduct = async (data) => {
   // console.log(data);
   const product = await productRepository.createProduct(data);
-  return { product, message: "Product Added successfully" };
+  return { message: "Product Added successfully" };
 };
 const listProducts = async () => {
   const products = await productRepository.listProducts();

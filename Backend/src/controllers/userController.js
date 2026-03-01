@@ -107,7 +107,7 @@ const register = async (req, res) => {
     const result = await userService.register(req.body);
     res.status(201).json({ status: true, ...result });
   } catch (error) {
-    res.status(400).json({ status: false, message: error.message });
+    res.json({ status: false, message: error.message });
   }
 };
 
@@ -116,7 +116,7 @@ const login = async (req, res) => {
     const result = await userService.login(req.body.email, req.body.password);
     res.json({ status: true, ...result });
   } catch (error) {
-    res.status(400).json({ status: false, message: error.message });
+    res.json({ status: false, message: error.message });
   }
 };
 
@@ -127,7 +127,7 @@ const adminLogin = async (req, res) => {
     const result = await userService.adminLogin(email, password);
     res.json({ status: true, ...result });
   } catch (error) {
-    res.status(400).json({ status: false, message: error.message });
+    res.json({ status: false, message: error.message });
   }
 };
 
