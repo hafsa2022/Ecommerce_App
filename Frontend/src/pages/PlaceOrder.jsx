@@ -3,7 +3,7 @@ import Title from "../components/Title";
 import CartTotal from "../components/CartTotal";
 import assets from "../assets/frontend_assets/assets";
 import { ShopContext } from "../context/shopContext";
-import axios from "axios";
+import axios from "../api/axiosInstance";
 import { toast } from "react-toastify";
 
 const PlaceOrder = () => {
@@ -74,11 +74,9 @@ const PlaceOrder = () => {
 
       switch (method) {
         case "cod": {
-          const res = await axios.post(
-            `${import.meta.env.VITE_BACKEND_URL}/order/place`,
-            orderData,
-            { headers: { Authorization: `Bearer ${token}` } },
-          );
+          const res = await axios.post(`/order/place`, orderData, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
           if (res.data.status) {
             navigate("/orders");
             setCartItems({});
@@ -88,12 +86,18 @@ const PlaceOrder = () => {
           break;
         }
 
-        case "stripe":
-          return await axios.post(
-            `${import.meta.env.VITE_BACKEND_URL}/order/stripe`,
-            orderData,
-            { headers: { Authorization: `Bearer ${token}` } },
-          );
+        case "stripe": {
+          const resStripe = await axios.post(`/order/stripe`, orderData, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          if (resStripe.data.status) {
+            const { session_url } = resStripe.data;
+            window.location.replace(session_url);
+          } else {
+            toast.error(resStripe.data.message);
+          }
+          break;
+        }
       }
 
       //

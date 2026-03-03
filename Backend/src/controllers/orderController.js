@@ -13,8 +13,18 @@ const placeOrder = async (req, res) => {
 // Placing Orders using Stripe Method
 const placeOrderStripe = async (req, res) => {
   try {
-    const result = await orderService.placeOrderStripe(req.body);
-    res.status(200).json({ status: true, message: result.message });
+    const result = await orderService.placeOrderStripe(req.body, req.headers);
+    res.status(200).json({ status: true, session_url: result.session_url });
+  } catch (error) {
+    res.json({ status: false, message: error.message });
+  }
+};
+
+// Verify Stripe
+const verifyStripe = async (req, res) => {
+  try {
+    const result = await orderService.verifyStripe(req.body, req.headers);
+    res.status(200).json(result);
   } catch (error) {
     res.json({ status: false, message: error.message });
   }
@@ -50,4 +60,11 @@ const updateStatus = async (req, res) => {
   }
 };
 
-export { placeOrder, placeOrderStripe, allOrders, userOrders, updateStatus };
+export {
+  placeOrder,
+  placeOrderStripe,
+  verifyStripe,
+  allOrders,
+  userOrders,
+  updateStatus,
+};

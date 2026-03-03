@@ -2,7 +2,7 @@ import { createContext, useState, useEffect, useCallback } from "react";
 // import products from "../constants/products";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../api/axiosInstance";
 
 const ShopContext = createContext();
 
@@ -39,7 +39,7 @@ const ShopContextProvider = ({ children }) => {
     if (token) {
       try {
         const response = await axios.post(
-          import.meta.env.VITE_BACKEND_URL + "/cart/add",
+          "/cart/add",
           {
             productId,
             size,
@@ -90,7 +90,7 @@ const ShopContextProvider = ({ children }) => {
     if (token) {
       try {
         await axios.post(
-          import.meta.env.VITE_BACKEND_URL + "/cart/update",
+          "/cart/update",
           {
             productId,
             size,
@@ -150,7 +150,7 @@ const ShopContextProvider = ({ children }) => {
   //   // Send request to backend
   //   // try {
   //   //   await axios.post(
-  //   //     `${import.meta.env.VITE_BACKEND_URL}/cart/remove`,
+  //   //     `/cart/remove`,
   //   //     { productId, size },
   //   //     {
   //   //       headers: {
@@ -182,7 +182,7 @@ const ShopContextProvider = ({ children }) => {
     // call backend
     try {
       await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/cart/remove`,
+        `/cart/remove`,
         { productId, size },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -213,7 +213,7 @@ const ShopContextProvider = ({ children }) => {
   //   if (token) {
   //     try {
   //       const response = await axios.post(
-  //         import.meta.env.VITE_BACKEND_URL + "/cart/get",
+  //        "/cart/get",
   //         {},
   //         {
   //           headers: {
@@ -236,7 +236,7 @@ const ShopContextProvider = ({ children }) => {
 
   //   try {
   //     const { data } = await axios.post(
-  //       `${import.meta.env.VITE_BACKEND_URL}/cart/get`,
+  //       `/cart/get`,
   //       {},
   //       {
   //         headers: { Authorization: `Bearer ${token}` },
@@ -255,7 +255,7 @@ const ShopContextProvider = ({ children }) => {
   // const getProductsData = async () => {
   //   try {
   //     const response = await axios.get(
-  //       `${import.meta.env.VITE_BACKEND_URL}/product/list`,
+  //       `/product/list`,
   //     );
 
   //     if (response.data.status) {
@@ -272,9 +272,7 @@ const ShopContextProvider = ({ children }) => {
   // Charger les produits UNE seule fois au montage
   const getProductsData = useCallback(async () => {
     try {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/product/list`,
-      );
+      const { data } = await axios.get(`/product/list`);
 
       if (data.status) {
         setProducts(data.products);
@@ -298,40 +296,83 @@ const ShopContextProvider = ({ children }) => {
   //   }
   // }, []);
 
+  // useEffect(() => {
+  //   const initializeShop = async () => {
+  //     try {
+  //       const requests = [
+  //         axios.get(`/product/list`),
+  //       ];
+
+  //       if (token) {
+  //         requests.push(
+  //           axios.post(
+  //             `/cart/get`,
+  //             {},
+  //             {
+  //               headers: { Authorization: `Bearer ${token}` },
+  //             },
+  //           ),
+  //         );
+  //       }
+
+  //       const responses = await Promise.all(requests);
+
+  //       // Products
+  //       const productsResponse = responses[0];
+  //       if (productsResponse.data.status) {
+  //         setProducts(productsResponse.data.products);
+  //       }
+
+  //       // Cart (if exists)
+  //       if (token && responses[1]?.data?.status) {
+  //         setCartItems(responses[1].data.cartData);
+  //       }
+  //     } catch (error) {
+  //       console.error(error);
+  //       toast.error(error.response?.data?.message || error.message);
+  //     }
+  //   };
+
+  //   initializeShop();
+  // }, [token]);
   useEffect(() => {
     const initializeShop = async () => {
       try {
-        const requests = [
-          axios.get(`${import.meta.env.VITE_BACKEND_URL}/product/list`),
-        ];
+        // 1 Charger produits (toujours)
+        const productsResponse = await axios.get("/product/list");
 
-        if (token) {
-          requests.push(
-            axios.post(
-              `${import.meta.env.VITE_BACKEND_URL}/cart/get`,
-              {},
-              {
-                headers: { Authorization: `Bearer ${token}` },
-              },
-            ),
-          );
-        }
-
-        const responses = await Promise.all(requests);
-
-        // Products
-        const productsResponse = responses[0];
         if (productsResponse.data.status) {
           setProducts(productsResponse.data.products);
         }
 
-        // Cart (if exists)
-        if (token && responses[1]?.data?.status) {
-          setCartItems(responses[1].data.cartData);
+        // 2 Charger panier seulement si token
+        if (token) {
+          try {
+            const cartResponse = await axios.post(
+              "/cart/get",
+              {},
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              },
+            );
+
+            if (cartResponse.data.status) {
+              setCartItems(cartResponse.data.cartData);
+            }
+          } catch (cartError) {
+            console.error(cartError);
+            toast.error(cartError.message);
+            // 🔥 Token expiré
+            // if (cartError.response?.status === 401) {
+            //   localStorage.removeItem("token");
+            //   setToken(null);
+            //   navigate("/auth");
+            // }
+          }
         }
       } catch (error) {
         console.error(error);
-        toast.error(error.response?.data?.message || error.message);
+        toast.error("Failed to load products");
       }
     };
 

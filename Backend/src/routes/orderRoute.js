@@ -14,7 +14,10 @@ orderRouter.post("/place", authUser, orderController.placeOrder);
 orderRouter.post("/stripe", authUser, orderController.placeOrderStripe);
 
 // User Features
-orderRouter.post("/userorders", authUser, orderController.userOrders);
+orderRouter.post("/user-orders", authUser, orderController.userOrders);
+
+// Verify Payment
+orderRouter.post("/verify-stripe", authUser, orderController.verifyStripe);
 
 
 export default orderRouter;

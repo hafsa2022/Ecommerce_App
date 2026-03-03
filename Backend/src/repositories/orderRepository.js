@@ -9,4 +9,15 @@ const allOrders = () => Order.find({});
 const findByIdAndUpdate = (id, status) =>
   Order.findByIdAndUpdate(id, { status });
 
-export { createOrder, userOrdersByUserId, allOrders, findByIdAndUpdate };
+const findByIdAndUpdatePayment = (id, payment) =>
+  Order.findByIdAndUpdate(id, payment);
+const findByIdAndDelete = (id) => findByIdAndDelete(id);
+
+export {
+  createOrder,
+  userOrdersByUserId,
+  allOrders,
+  findByIdAndUpdate,
+  findByIdAndUpdatePayment,
+  findByIdAndDelete,
+};

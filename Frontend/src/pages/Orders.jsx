@@ -1,7 +1,7 @@
 import React, { useContext, useState, useMemo, useEffect } from "react";
 import { ShopContext } from "../context/shopContext";
 import Title from "../components/Title";
-import axios from "axios";
+import axios from "../api/axiosInstance";
 
 const Orders = () => {
   const { token, currency } = useContext(ShopContext);
@@ -12,7 +12,7 @@ const Orders = () => {
       return null;
     }
     const response = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/order/userorders`,
+      `/order/user-orders`,
       {},
       { headers: { Authorization: `Bearer ${token}` } },
     );
@@ -42,7 +42,12 @@ const Orders = () => {
         <Title text1={"MY"} text2={"ORDERS"} />
       </div>
       <div>
-        {orders.length != 0 &&
+        {orders?.length === 0 && (
+          <p className="text-center text-gray-500">
+            Your Orders not added yet!
+          </p>
+        )}
+        {orders?.length != 0 &&
           orders?.map((order, index) => (
             <div
               key={index}

@@ -2,7 +2,7 @@ import * as userRepository from "../repositories/userRepository.js";
 
 // Add products to user cart
 const addToCart = async (data) => {
-  console.log(data);
+  // console.log(data);
   const userData = await userRepository.findById(data.userId);
   let cartData = await userData.cartData;
   if (cartData[data.productId]) {

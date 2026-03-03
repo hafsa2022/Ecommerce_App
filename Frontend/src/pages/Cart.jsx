@@ -13,6 +13,7 @@ const Cart = () => {
     removeFromCart,
     updateQuantity,
     navigate,
+    token,
   } = useContext(ShopContext);
   const [cartData, setCartData] = useState([]);
 
@@ -35,6 +36,12 @@ const Cart = () => {
     }
   }, [cartItems, products]);
 
+  useEffect(() => {
+    if (!token) {
+      navigate("/auth");
+    }
+  }, [token]);
+  
   return (
     <div className="border-t pt-14">
       <div className="text-2xl mb-3">
