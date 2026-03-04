@@ -1,4 +1,5 @@
 <img width="1906" height="871" alt="image" src="https://github.com/user-attachments/assets/a4579206-d4bc-4c02-91ab-3162a212e747" />
+
 # 🛒 MERN Stack eCommerce Website
 
 A full-stack eCommerce web application built using the MERN stack (MongoDB, Express.js, React.js, Node.js).  
@@ -24,7 +25,6 @@ This project includes user shopping features, secure payment integration, and a 
 - Stripe
 - Cash on Delivery
 
----
 
 ## 👤 User Features
 
@@ -37,7 +37,6 @@ This project includes user shopping features, secure payment integration, and a 
 - Cash on Delivery option
 - Order confirmation system
 
----
 
 ## 🛠 Admin Dashboard Features
 
@@ -47,7 +46,6 @@ This project includes user shopping features, secure payment integration, and a 
 - View all products
 - Manage orders
 
----
 
 ## 🗄 Database
 
@@ -58,11 +56,10 @@ All data including:
 
 are stored securely in MongoDB.
 
----
 
 ## 📦 Installation & Setup
 
 ### 1️⃣ Clone the repository
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
+git clone https://github.com/hafsa2022/Ecommerce_App.git
