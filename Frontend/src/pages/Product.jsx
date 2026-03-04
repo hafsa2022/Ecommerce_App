@@ -45,7 +45,8 @@ const Product = () => {
           <div className="flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[18.7%] w-full">
             {productData.image.map((img, index) => (
               <img
-                onClick={() => setImage(img)}
+                // onClick={() => setImage(img)}
+                onMouseEnter={() => setImage(img)}
                 key={index}
                 src={img}
                 alt={img.name}
