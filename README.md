@@ -62,7 +62,7 @@ are stored securely in MongoDB.
 
 ```bash
 git clone https://github.com/hafsa2022/Ecommerce_App.git
-
+```
 
 ### 2 Install dependencies
 #### Frontend
@@ -71,6 +71,7 @@ git clone https://github.com/hafsa2022/Ecommerce_App.git
 cd frontend
 npm install
 npm run dev
+```
 
 #### Backend
 
@@ -78,6 +79,7 @@ npm run dev
 cd backend
 npm install
 npm run server
+```
 
 ### 3️ Environment Variables
 Create a .env file in backend folder:
