@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Login = ({ setToken }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
   const onSubmitHandler = async (e) => {
     try {
       e.preventDefault();
@@ -17,6 +20,7 @@ const Login = ({ setToken }) => {
         setToken(response.data.token);
       } else {
         toast.error(response.data.message);
+        navigate("/list");
       }
     } catch (error) {
       console.log(error);
