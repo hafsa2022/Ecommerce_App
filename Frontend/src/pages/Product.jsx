@@ -3,22 +3,34 @@ import { ShopContext } from "../context/shopContext";
 import { useParams } from "react-router-dom";
 import assets from "../assets/frontend_assets/assets";
 import RelatedProduct from "../components/RelatedProduct";
+import axiosInstance from "../api/axiosInstance";
 
 const Product = () => {
   const { productId } = useParams();
-  const { products, currency, addToCart } = useContext(ShopContext);
+  const { currency, addToCart } = useContext(ShopContext);
   const [image, setImage] = useState("");
   const [productData, setProductData] = useState(null);
   const [selectedSize, setSelectedSize] = useState("");
 
   const fetchedProductData = async () => {
-    products.map((p) => {
-      if (p._id === productId) {
-        setProductData(p);
-        setImage(p.image[0]);
+    // products.map((p) => {
+    //   if (p._id === productId) {
+    //     setProductData(p);
+    //     setImage(p.image[0]);
+    //     return null;
+    //   }
+    // });
+    try {
+      const response = await axiosInstance.get(`/product/single/${productId}`);
+      if (response.data.status) {
+        const product = response.data.product;
+        setProductData(product);
+        setImage(product.image[0]);
         return null;
       }
-    });
+    } catch (error) {
+      console.error(error);
+    }
   };
   useEffect(() => {
     fetchedProductData();

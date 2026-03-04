@@ -35,15 +35,15 @@ const Footer = () => {
           <h3 className="text-lg font-semibold">GET IN TOUCH</h3>
           <ul className="flex flex-col gap-1 text-gray-600 mt-2">
             <li>123 Main Street, City</li>
-            <li>contact@forever.com</li>
-            <li>+1 (555) 123-4567</li>
+            <li>contact@Dressdrops.com</li>
+            <li>+212 123-4567</li>
           </ul>
         </div>
       </div>
       <div>
         <hr />
         <p className="text-center text-sm text-gray-600 py-5">
-          © 2025 Forever. All rights reserved.
+          © 2025 Dressdrops. All rights reserved.
         </p>
       </div>
     </div>
