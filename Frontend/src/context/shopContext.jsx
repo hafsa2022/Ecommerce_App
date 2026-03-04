@@ -102,67 +102,12 @@ const ShopContextProvider = ({ children }) => {
             },
           },
         );
-        // if (response.data.status) {
-        //   toast.success(response.data.message);
-        // }
       } catch (error) {
         console.error(error);
         toast.error(error.message);
       }
     }
   };
-
-  // const removeFromCart = async (productId, size) => {
-  //   let cartData = structuredClone(cartItems);
-  //   if (cartData[productId] && cartData[productId][size]) {
-  //     cartData[productId][size] -= 1;
-  //     if (cartData[productId][size] <= 0) {
-  //       delete cartData[productId][size];
-  //       if (Object.keys(cartData[productId]).length === 0) {
-  //         delete cartData[productId];
-  //       }
-  //     }
-  //     setCartItems(cartData);
-  //   }
-  // };
-  // const removeFromCart = async (productId, size) => {
-  //   // Optimistic UI update
-  //   setCartItems((prevCart) => {
-  //     const cartData = structuredClone(prevCart);
-
-  //     if (!cartData[productId] || !cartData[productId][size]) {
-  //       return prevCart;
-  //     }
-
-  //     cartData[productId][size] -= 1;
-
-  //     if (cartData[productId][size] <= 0) {
-  //       delete cartData[productId][size];
-
-  //       if (Object.keys(cartData[productId]).length === 0) {
-  //         delete cartData[productId];
-  //       }
-  //     }
-
-  //     return cartData;
-  //   });
-
-  //   // Send request to backend
-  //   // try {
-  //   //   await axios.post(
-  //   //     `/cart/remove`,
-  //   //     { productId, size },
-  //   //     {
-  //   //       headers: {
-  //   //         Authorization: `Bearer ${token}`,
-  //   //       },
-  //   //     },
-  //   //   );
-  //   // } catch (error) {
-  //   //   console.error(error);
-  //   //   toast.error(error.response?.data?.message || error.message);
-  //   // }
-  // };
 
   const removeFromCart = async (productId, size) => {
     setCartItems((prevCart) => {
@@ -209,66 +154,6 @@ const ShopContextProvider = ({ children }) => {
     return totalCart;
   };
 
-  // const getUserCart = async () => {
-  //   if (token) {
-  //     try {
-  //       const response = await axios.post(
-  //        "/cart/get",
-  //         {},
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         },
-  //       );
-  //       if (response.data.status) {
-  //         setCartItems(response.data.cartData);
-  //       }
-  //     } catch (error) {
-  //       console.error(error);
-  //       toast.error(error.message);
-  //     }
-  //   }
-  // };
-
-  // const getUserCart = useCallback(async () => {
-  //   if (!token) return;
-
-  //   try {
-  //     const { data } = await axios.post(
-  //       `/cart/get`,
-  //       {},
-  //       {
-  //         headers: { Authorization: `Bearer ${token}` },
-  //       },
-  //     );
-
-  //     if (data.status) {
-  //       setCartItems(data.cartData);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     toast.error(error.response?.data?.message || error.message);
-  //   }
-  // }, [token]);
-
-  // const getProductsData = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `/product/list`,
-  //     );
-
-  //     if (response.data.status) {
-  //       setProducts(response.data.products);
-  //     } else {
-  //       toast.error(response.data.message);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     toast.error(error.response?.data?.message || error.message);
-  //   }
-  // };
-
   // Charger les produits UNE seule fois au montage
   const getProductsData = useCallback(async () => {
     try {
@@ -285,56 +170,6 @@ const ShopContextProvider = ({ children }) => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   getProductsData();
-  // }, []);
-
-  // useEffect(() => {
-  //   if (!token && localStorage.getItem("token")) {
-  //     setToken(localStorage.getItem("token"));
-  //     getUserCart();
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   const initializeShop = async () => {
-  //     try {
-  //       const requests = [
-  //         axios.get(`/product/list`),
-  //       ];
-
-  //       if (token) {
-  //         requests.push(
-  //           axios.post(
-  //             `/cart/get`,
-  //             {},
-  //             {
-  //               headers: { Authorization: `Bearer ${token}` },
-  //             },
-  //           ),
-  //         );
-  //       }
-
-  //       const responses = await Promise.all(requests);
-
-  //       // Products
-  //       const productsResponse = responses[0];
-  //       if (productsResponse.data.status) {
-  //         setProducts(productsResponse.data.products);
-  //       }
-
-  //       // Cart (if exists)
-  //       if (token && responses[1]?.data?.status) {
-  //         setCartItems(responses[1].data.cartData);
-  //       }
-  //     } catch (error) {
-  //       console.error(error);
-  //       toast.error(error.response?.data?.message || error.message);
-  //     }
-  //   };
-
-  //   initializeShop();
-  // }, [token]);
   useEffect(() => {
     const initializeShop = async () => {
       try {
@@ -362,12 +197,6 @@ const ShopContextProvider = ({ children }) => {
           } catch (cartError) {
             console.error(cartError);
             toast.error(cartError.message);
-            // 🔥 Token expiré
-            // if (cartError.response?.status === 401) {
-            //   localStorage.removeItem("token");
-            //   setToken(null);
-            //   navigate("/auth");
-            // }
           }
         }
       } catch (error) {
